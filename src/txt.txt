@@ -1,0 +1,3 @@
+2
+zzz       , xxx       , 11122233345 , kierownik , 5    , 6000,00
+qqq       , ppp       , 11122233387 , Robotnik  , 3    , 2400,00

@@ -1,4 +1,6 @@
-public abstract class Pracownik {
+import java.io.Serializable;
+
+public abstract class Pracownik implements Serializable {
     protected String nazwisko;
     protected String imie;
     protected long pesel;

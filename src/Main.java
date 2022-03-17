@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -18,9 +18,15 @@ public class Main {
         //    tab[i] = temp.nazwisko;
         //
         //}
-
         Pracownik[] tab = wczytaj(new Pracownik[50], 0);
-        wyswietl(tab);
+        System.out.println("\nzad1:");
+        zad1(tab);
+        System.out.println("\nzad2:");
+        zad2(tab);
+        System.out.println("\nzad2b:");
+        zad2b(tab);
+        System.out.println("\nzad3:");
+        zad3(tab);
 
 
     }
@@ -51,6 +57,9 @@ public class Main {
             }else if (typ.equals("1")||typ.equals("godziny")){
                 tab[start] = new PracownikGodzinowy(nazwisko,imie,Long.parseLong(pesel),stanowisko,staz, (int) etat,stawka);
                 start++;
+            }else{
+                tab[start] = new PracownikEtatowy(nazwisko,imie,Long.parseLong(pesel),stanowisko,staz,etat,stawka);
+                start++;
             }
             System.out.println("Czy chcesz kontynuować? (0=nie  1=tak):");
             if (scan.next().equals("0"))toContinue=false;
@@ -59,10 +68,57 @@ public class Main {
         return tab;
     }
     public static void wyswietl(Pracownik[] tab){
-        System.out.printf("%s, %s, %s, %s, %s, %s", "nazwisko", "imie", "pesel", "stanowisko", "staz", "pensja");
+        System.out.printf("%-10s, %-10s, %-12s, %-10s, %-5s, %-7s\n", "nazwisko", "imie", "pesel", "stanowisko", "staz", "pensja");
         for (Pracownik p :
                 tab) {
+            if (p==null)break;
             System.out.println(p);
         }
     }
+    public static void zad1(Pracownik[] tab){
+        wyswietl(tab);
+    }
+    public static void zad2(Pracownik[] tab){
+        ObjectOutputStreamA oos = new ObjectOutputStreamA("txt.txt", tab);
+        ObjectInputStreamA ois = new ObjectInputStreamA("txt.txt");
+    }
+    public static void zad2b(Pracownik[] tab){
+        try(
+                FileOutputStream fos = new FileOutputStream("src/txt.bin");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                FileInputStream fis = new FileInputStream("src/txt.bin");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                ) {
+            int j=0;
+            for (Pracownik p :
+                    tab) {
+                if (p!=null) j++;
+                if (p==null)break;
+            }
+            oos.writeInt(j);
+            for (int i = 0; i < j; i++) {
+                if (tab[i]==null)break;
+                oos.writeObject(tab[i]);
+            }
+            oos.close();
+            System.out.printf("%-10s, %-10s, %-12s, %-10s, %-5s, %-7s\n", "nazwisko", "imie", "pesel", "stanowisko", "staz", "pensja");
+            int l = ois.readInt();
+            for(int k=0;k<l;k++){
+                System.out.println(ois.readObject());
+            }
+
+
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public static void zad3(Pracownik[] tab){
+        Iterator1 it = new Iterator1(tab);
+        System.out.printf("%-10s, %-10s, %-12s, %-10s, %-5s, %-7s\n", "nazwisko", "imie", "pesel", "stanowisko", "staz", "pensja");
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
+    }
+
 }

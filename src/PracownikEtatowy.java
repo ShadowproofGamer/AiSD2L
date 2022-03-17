@@ -19,6 +19,6 @@ public class PracownikEtatowy extends Pracownik{
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %d, %s, %d, %f", nazwisko, imie, pesel, stanowisko, staz, pensja());
+        return String.format("%-10s, %-10s, %-12d, %-10s, %-5d, %-7.2f", nazwisko, imie, pesel, stanowisko, staz, pensja());
     }
 }
